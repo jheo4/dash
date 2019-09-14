@@ -1,0 +1,49 @@
+/github/ffmpeg_sources
+
+
+PKG_CONFIG_PATH="$HOME/github/ffmpeg_sources/ffmpeg_build/lib/pkgconfig" ./configure --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" --bindir="$HOME/github/ffmpeg_sources/bin" --enable-static
+make
+make install
+
+cd x265/build/linux
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/github/ffmpeg_sources/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
+make
+make install
+
+autoreconf -fiv
+./configure --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" --disable-shared
+make
+make install
+
+./configure --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" --bindir="$HOME/github/ffmpeg_sources/bin" --disable-shared --enable-nasm
+make
+make install
+
+./configure --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" --disable-shared
+make
+make install
+
+
+./configure --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm
+make
+make install
+
+
+
+PATH="$HOME/github/ffmpeg_sources/bin:$PATH" PKG_CONFIG_PATH="$HOME/github/ffmpeg_sources/ffmpeg_build/lib/pkgconfig" ./configure \
+  --prefix="$HOME/github/ffmpeg_sources/ffmpeg_build" \
+  --pkg-config-flags="--static" \
+  --extra-cflags="-I$HOME/github/ffmpeg_sources/ffmpeg_build/include" \
+  --extra-ldflags="-L$HOME/github/ffmpeg_sources/ffmpeg_build/lib" \
+  --extra-libs=-lpthread \
+  --extra-libs=-lm \
+  --bindir="$HOME/github/ffmpeg_sources/bin" \
+  --enable-gpl \
+  --enable-libfdk_aac \
+  --enable-libfreetype \
+  --enable-libmp3lame \
+  --enable-libopus \
+  --enable-libvpx \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-nonfree
