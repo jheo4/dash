@@ -20,24 +20,20 @@ do_transcode() {
   echo "container: $container"
 
   # resolution
-  # 480: 720*480
-  # 720: 1280*720
-  # 1080: 1920*1080
-  # 4K: 3840*2160
   if [ $resolution = "480" ]; then
     target_res="720x480"
-  elif [ $resolution="720" ]; then
+  elif [ $resolution = "720" ]; then
     target_res="1280x720"
-  elif [ $resolution="1080" ]; then
+  elif [ $resolution = "1080" ]; then
     target_res="1920x1080"
-  elif [ $resolution="4k"] || [ $resolution="4K" ]; then
+  elif [ $resolution = "4k" ]; then
     target_res="3840x2160"
   else
     echo "invalid resolution..."
     exit 1
   fi
 
-  ./bin/ffmpeg -y -i "$input" -preset medium -an -c:v $codec \
-    -b:v $bitrate -s $target_res \
-    -f "$container" $output"_$resolution.$container"
+  ./bin/ffmpeg -y -i "$input" -threads 4 -preset fast -an -c:v $codec \
+    -s $target_res -b:v $bitrate \
+    -f "$container" $output"_"$resolution"."$container
 }
