@@ -40,6 +40,14 @@ if ! [ -f $base/bin/ffmpeg ]; then
     --enable-libvpx \
     --enable-libx264 \
     --enable-libx265 \
+    --enable-cuda  \
+    --enable-cuvid \
+    --enable-nvenc \
+    --enable-libnpp \
+    --extra-cflags=-I/usr/local/cuda/include \
+    --extra-cflags=-I//usr/local/cuda/targets/x86_64-linux/include \
+    --extra-ldflags=-L/usr/local/cuda/lib64 \
+    --extra-ldflags=-L/usr/local/cuda/targets/x86_64-linux/lib \
     --enable-nonfree && \
     make -j4 && \
     make install
