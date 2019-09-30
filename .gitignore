@@ -1,14 +1,22 @@
+# FFmpeg Specific
 build/
-Inputs/
+ffmpeg_build/
 bin/
-x265/
-x264/
-Samples/
-Outputs/
-libvpx/
-fdk-aac/
-opus-1.3.1/
-lame-3.100/
 ffmpeg/
 
+Inputs/
+Outputs/
+
+crf0/
+crf18/
+code/
+reference/
+
+# Python Specific
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Vim Specific
 *.swp
