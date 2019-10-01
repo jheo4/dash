@@ -3,6 +3,7 @@ build/
 ffmpeg_build/
 bin/
 ffmpeg/
+nv-codec-headers/
 
 Inputs/
 Outputs/

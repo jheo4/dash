@@ -18,12 +18,20 @@ sudo apt-get update -qq && sudo apt-get -y install autoconf automake \
 if ! [ -f $base/bin/ffmpeg ]; then
   rm -rf $base/bin
   rm -rf $base/ffmpeg_build
+  rm -rf $base/nv-codec-headers/
 
   if ! [ -d $base/ffmpeg ]; then
     wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
     tar xjvf ffmpeg-snapshot.tar.bz2
     rm ffmpeg-snapshot.tar.bz2
   fi
+
+  git clone https://github.com/FFmpeg/nv-codec-headers.git
+  cd nv-codec-headers/
+  make && sudo make install
+  cd ..
+
+  export LD_LIBRARY_PATH=/usr/local/cuda/lib64
 
   cd ffmpeg && PKG_CONFIG_PATH="$base/ffmpeg_build/lib/pkgconfig" ./configure \
     --prefix="$base/ffmpeg_build" \
@@ -45,9 +53,7 @@ if ! [ -f $base/bin/ffmpeg ]; then
     --enable-nvenc \
     --enable-libnpp \
     --extra-cflags=-I/usr/local/cuda/include \
-    --extra-cflags=-I//usr/local/cuda/targets/x86_64-linux/include \
     --extra-ldflags=-L/usr/local/cuda/lib64 \
-    --extra-ldflags=-L/usr/local/cuda/targets/x86_64-linux/lib \
     --enable-nonfree && \
     make -j4 && \
     make install
